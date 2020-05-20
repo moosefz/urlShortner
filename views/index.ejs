@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>urlShortner</title>
+    <!-- BootStrap CDN / Custom CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/main.css">
+</head>
+<body>
+    <div class="container">
+        <div class="jumbotron">
+            <h1 class="display-5">urlShortner</h1>
+            <p class="lead">urlShortner created using Express.js with RESTful routes, Node.js and MongoDB. A very simple front-end was created using HTML and CSS via Bootstrap.</p>
+            <hr class="my-4">
+            <p>Simply input a full size URL and a shortned URL will be returned to the table which redirects back to the full URL. Visits (clicks) are also tracked.</p>
+        </div>
+        <form class="my-4 form-inline" action="/shortUrls" method="POST">
+            <label for="fullURL" class="sr-only">URL:</label>
+            <input id="fullUrl" class="form-control mr-2 col" type="url" name="urlInput" placeholder="URL" required>        
+            <button class="btn btn-success" type="submit">Shorten!</button>
+        </form>
+
+        <!-- Table for URLs -->
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Full URL</th>
+                        <th>Short URL</th>
+                        <th>Visits</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- EJS will generate each row using a forEach from the mongoDB -->
+                    <% shortUrls.forEach(shortUrl => { %>
+                        <tr>
+                            <td><a href="<%= shortUrl.full %>"><%= shortUrl.full %></a></td>
+                            <td><a href="<%= shortUrl.short %>"><%= shortUrl.short %></a></td>
+                            <td><%= shortUrl.clicks %></td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</body>
+</html>
