@@ -12,8 +12,8 @@ const app = express();
 
 // ejs setup
 app.set("view engine", "ejs"); // ejs setup
-app.use(express.static(__dirname + "/public")); // CSS Stylesheets and js scripts
-app.use(express.urlencoded({ extended: false })); // allows use of URLS in express
+app.use(express.static(__dirname + "/public")); // CSS Stylesheets 
+app.use(express.urlencoded({ extended: false })); // URLs in Express
 
 // ROOT ROUTE
 app.get("/", async (req, res) => {
@@ -27,15 +27,11 @@ app.post("/shortUrls", async (req, res) => {
   res.redirect("/");
 })
 
+// ROUTE REDIRECTION FOR SHORTENED LINK
 app.get("/:shortUrl", async (req, res) => {
-  // search mongodb for our short URL
   const shortUrl = await ShortUrl.findOne({ short: req.params.shortUrl })
-  // if it does not exist, send 404 error
   if(shortUrl == null) return res.sendStatus(404);
-
-  // else found, increment click counter
   shortUrl.clicks++
-  // save updated click counter to db
   shortUrl.save();
 
   // redirect to the full corresponding full url
