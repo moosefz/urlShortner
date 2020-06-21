@@ -20,7 +20,16 @@ const shortUrlSchema = new mongoose.Schema({
         type: Number,
         required: true,
         default: 0
+    },
+
+    // every short link has an author that it belongs to
+    author: {
+        id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+        },
+        username: String
     }
-})
+});
 
 module.exports = mongoose.model("shortUrl", shortUrlSchema);
